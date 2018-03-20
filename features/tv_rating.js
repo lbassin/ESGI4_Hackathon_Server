@@ -1,13 +1,11 @@
 const getIdByName = require('../get_id_by_name');
+const config = require('../config');
 const request = require('request');
-
-const base_url = 'https://api.themoviedb.org/3/';
-const end_url = '?api_key=e6bd501ead1bb2b3fee7f162744af579&language=fr-FR&page=1';
 
 function getRatingById(id) {
     console.log(id);
     return new Promise(resolve => {
-        const url = base_url + 'tv/' + id + end_url;
+        const url = config.URL_THEMOVIEDB + 'tv/' + id + config.API_KEY_THEMOVIEDB + '&page=1';
 
         request(url, function (error, response, body) {
             if (!error && response.statusCode === 200) {

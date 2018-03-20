@@ -1,11 +1,9 @@
+const config = require('./config');
 const request = require('request');
-
-const base_url = 'https://api.themoviedb.org/3/';
-const end_url = '?api_key=e6bd501ead1bb2b3fee7f162744af579&language=fr-FR&page=1';
 
 function getOutputData(show) {
     return new Promise((resolve, reject) => {
-        const urlDetails = base_url + 'tv/' + show.id + end_url;
+        const urlDetails = config.URL_THEMOVIEDB + 'tv/' + show.id + config.API_KEY_THEMOVIEDB + '&page=1';
         request(urlDetails, (error, response, body) => {
             if (error || response.statusCode !== 200) {
                 reject();

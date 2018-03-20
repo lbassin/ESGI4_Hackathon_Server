@@ -2,7 +2,7 @@ const config = require('../config');
 const request = require('request');
 
 module.exports = (parameters) => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         const name = parameters.TV_Name;
         const url_search = config.URL_THEMOVIEDB +
             'search/movie' +
@@ -20,15 +20,19 @@ module.exports = (parameters) => {
                     'movie/' +
                     show.id + '/videos' +
                     config.API_KEY_THEMOVIEDB +
-                    'language=fr_FR' +
-                    '&include_adult=true'
+                    '&include_adult=true';
 
                 request(url, function (error, response, body) {
                     if (!error && response.statusCode === 200) {
                         body = JSON.parse(body);
                         let trailer = body.results[0];
 
-                        resolve("https://www.youtube.com/watch?v=" + trailer.key);
+                        if(!trailer){
+                            reject({type: 'text', data: {message: 'Rien trouvé'}});
+                            return;
+                        }
+
+                        resolve({type: 'text', data: {message: "https://www.youtube.com/watch?v=" + trailer.key}});
                     }
                 });
             }
