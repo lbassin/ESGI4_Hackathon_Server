@@ -1,3 +1,4 @@
+const getIdByName = require('../get_id_by_name');
 const request = require('request');
 
 const base_url = 'https://api.themoviedb.org/3/';
@@ -19,29 +20,6 @@ function getOutputData(show) {
                 media: 'https://image.tmdb.org/t/p/w400' + show.poster_path,
                 caption: genres[selectedGenre].name,
             });
-        });
-    });
-}
-
-function getIdByName(name) {
-    return new Promise((resolve, reject) => {
-        console.log(name);
-
-        let searchUrl = base_url + 'search/tv' + end_url + '&query="' + name + '"';
-        console.log(searchUrl);
-        request(searchUrl, (error, response, body) => {
-            if (error || response.statusCode !== 200) {
-                reject();
-            }
-
-            body = JSON.parse(body);
-            console.log(body);
-            if (body.total_results === 1) {
-                resolve(body.results[0].id);
-            }
-
-            throw new Error('Multiple possibilities');
-            reject({});
         });
     });
 }

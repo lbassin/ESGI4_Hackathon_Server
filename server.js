@@ -27,13 +27,9 @@ app.post('/api/', function (req, res) {
 
         const callback = require('./features/' + response.action);
         callback(parameters).then(data => {
-
-            console.log(data);
-            // DATA
-
-            res.send(JSON.stringify({}));
+            res.send(JSON.stringify(data));
         }).catch(error => {
-            console.log(error);
+            res.send(JSON.stringify(error));
         });
     });
 
