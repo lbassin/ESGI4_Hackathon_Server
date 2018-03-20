@@ -1,9 +1,11 @@
+const cleanQuestion = require('./clean_question');
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const askBot = require('./ask_bot');
 const express = require('express');
 const cors = require('cors');
-const app = express();
 
+const app = express();
 let db = null;
 
 app.use(cors());
@@ -18,16 +20,18 @@ app.post('/api/', function (req, res) {
         res.send({error: true, message: 'Missing Authorization'});
     }
 
-    console.log(userId);
-    console.log(req.body);
+    let question = cleanQuestion(req.body.question);
+    askBot(question).then(response => {
+        const callback = require('./features/' + response.action);
+        callback(response.parameters).then(data => {
 
-    db.collection('question').insertOne(req.body);
+            console.log(data);
+            // DATA
 
-    const data = {
-        'value': 4
-    };
+            res.send(JSON.stringify({}));
+        });
+    });
 
-    res.send(JSON.stringify(data));
 });
 
 MongoClient.connect('mongodb://127.0.0.1:27017', (error, client) => {
