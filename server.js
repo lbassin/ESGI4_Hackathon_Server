@@ -1,5 +1,6 @@
-const cleanQuestion = require('./clean_question');
+const cleanParameters = require('./clean_parameters');
 const MongoClient = require('mongodb').MongoClient;
+const cleanQuestion = require('./clean_question');
 const bodyParser = require('body-parser');
 const askBot = require('./ask_bot');
 const express = require('express');
@@ -22,13 +23,17 @@ app.post('/api/', function (req, res) {
 
     let question = cleanQuestion(req.body.question);
     askBot(question).then(response => {
+        let parameters = cleanParameters(response.parameters);
+
         const callback = require('./features/' + response.action);
-        callback(response.parameters).then(data => {
+        callback(parameters).then(data => {
 
             console.log(data);
             // DATA
 
             res.send(JSON.stringify({}));
+        }).catch(error => {
+            console.log(error);
         });
     });
 
