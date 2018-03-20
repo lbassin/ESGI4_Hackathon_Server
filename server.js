@@ -21,8 +21,13 @@ app.post('/api/', function (req, res) {
         res.send({error: true, message: 'Missing Authorization'});
     }
 
+    let sessionId = null;
+    if (req.body.sessionId) {
+        sessionId = req.body.sessionId;
+    }
+
     let question = cleanQuestion(req.body.question);
-    askBot(question).then(response => {
+    askBot(question, sessionId).then(response => {
         let parameters = cleanParameters(response.parameters);
 
         const callback = require('./features/' + response.action);
