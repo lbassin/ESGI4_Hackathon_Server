@@ -43,7 +43,12 @@ app.post('/api/', (req, res) => {
         }
 
         if (!callback) {
-            res.send({type: 'text', data: {message: 'Action not found'}});
+            res.send({
+                type: 'text', data: {
+                    message: 'Je ne suis pas sur d\'avoir compris votre demande',
+                    vocal: 'Je ne suis pas sur d\'avoir compris votre demande',
+                }
+            });
             return;
         }
 

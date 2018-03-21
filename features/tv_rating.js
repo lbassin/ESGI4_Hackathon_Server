@@ -11,10 +11,18 @@ function getRatingById(id) {
             if (!error && response.statusCode === 200) {
                 let show = JSON.parse(body);
 
+                let vocal = '';
+                if (show.vote_average < 6) {
+                    vocal = "Cette série n'est pas très apprécié, sa note est de : " + show.vote_average;
+                } else {
+                    vocal = "Cette série est plutôt apprécié, sa note est de " + show.vote_average;
+                }
+
                 resolve({
                     type: 'text',
                     data: {
-                        message: show.vote_average
+                        message: 'Cette série à une note de ' + show.vote_average + '/10',
+                        vocal: vocal
                     }
                 });
             }

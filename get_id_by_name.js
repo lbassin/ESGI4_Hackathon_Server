@@ -82,7 +82,10 @@ module.exports = (name) => {
                 return;
             }
 
-            getCardData(body.results, 'Plusieurs choix :').then(data => reject(data));
+            const message = 'De quelle série parlez vous ?';
+            const vocal = 'Plusieurs séries correspondent à votre recherche, de quelle série parlez vous ?';
+
+            getCardData(body.results, message, vocal).then(data => reject(data));
         });
     });
 };

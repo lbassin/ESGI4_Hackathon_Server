@@ -27,7 +27,7 @@ function getOutputData(show) {
     });
 }
 
-module.exports = (results, message) => {
+module.exports = (results, message, vocal) => {
     return new Promise(resolve => {
         let promises = [];
         for (let index in results) {
@@ -47,6 +47,7 @@ module.exports = (results, message) => {
                 type: 'card',
                 data: {
                     message: message,
+                    vocal: vocal,
                     cards: data
                 },
                 session: vars.sessionId
