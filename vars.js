@@ -1,3 +1,4 @@
 module.exports = {
-    sessionId: null
+    sessionId: null,
+    forceConfirmation: null,
 };

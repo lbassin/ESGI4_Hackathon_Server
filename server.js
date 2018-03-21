@@ -4,6 +4,7 @@ const cleanQuestion = require('./clean_question');
 const bodyParser = require('body-parser');
 const askBot = require('./ask_bot');
 const express = require('express');
+const vars = require('./vars');
 const cors = require('cors');
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/api/', function (req, res) {
+app.post('/api/', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const userId = req.headers.authorization;
@@ -22,15 +23,30 @@ app.post('/api/', function (req, res) {
     }
 
     let sessionId = null;
-    if (req.body.sessionId) {
-        sessionId = req.body.sessionId;
+    if (req.body.session) {
+        sessionId = req.body.session;
     }
 
     let question = cleanQuestion(req.body.question);
     askBot(question, sessionId).then(response => {
+        console.log(response.action);
         let parameters = cleanParameters(response.parameters);
 
-        const callback = require('./features/' + response.action);
+        if (parameters.Confirmation) {
+            vars.forceConfirmation = true;
+        }
+
+        let callback = null;
+        try {
+            callback = require('./features/' + response.action);
+        } catch (error) {
+        }
+
+        if (!callback) {
+            res.send({type: 'text', data: {message: 'Action not found'}});
+            return;
+        }
+
         callback(parameters).then(data => {
             res.send(JSON.stringify(data));
         }).catch(error => {

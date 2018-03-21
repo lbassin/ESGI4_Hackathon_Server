@@ -1,5 +1,6 @@
 const config = require('./config');
 const request = require('request');
+const vars = require('./vars');
 
 function getOutputData(show) {
     return new Promise((resolve, reject) => {
@@ -48,8 +49,12 @@ module.exports = (results, message) => {
                     message: message,
                     cards: data
                 },
-                session: true
+                session: vars.sessionId
             };
+
+            if (output.data.cards.length === 0) {
+                resolve({type: 'text', data: {message: 'Aucun résultat'}});
+            }
 
             resolve(output);
         }).catch(error => console.log(error));
