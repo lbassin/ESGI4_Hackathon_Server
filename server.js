@@ -4,6 +4,7 @@ const cleanQuestion = require('./clean_question');
 const bodyParser = require('body-parser');
 const askBot = require('./ask_bot');
 const express = require('express');
+const init = require('./init');
 const vars = require('./vars');
 const cors = require('cors');
 
@@ -58,7 +59,36 @@ app.post('/api/', (req, res) => {
             res.send(JSON.stringify(error));
         });
     });
+});
 
+app.post('/init/', (req, res) => {
+    let response = {};
+
+    switch (req.body.session) {
+        case 'genre':
+            response = {
+                type: 'init_done', data: {
+                    message: 'Merci, vous pouvez maintenant utiliser nos services',
+                    vocal: '',
+                },
+                session: null
+            };
+            init.saveGenre(req, db);
+            break;
+        default:
+            response = {
+                type: 'init', data: {
+                    message: 'Merci, quel genre de série ou film aimez vous regarder ?',
+                    pseudo: req.body.question,
+                    vocal: '',
+                },
+                session: 'genre'
+            };
+            init.savePseudo(req, db);
+            break;
+    }
+
+    res.send(response);
 });
 
 MongoClient.connect('mongodb://127.0.0.1:27017', (error, client) => {

@@ -27,12 +27,21 @@ module.exports = (parameters) => {
                         body = JSON.parse(body);
                         let trailer = body.results[0];
 
-                        if(!trailer){
+                        if (!trailer) {
                             reject({type: 'text', data: {message: 'Rien trouvé'}});
                             return;
                         }
 
-                        resolve({type: 'text', data: {message: "https://www.youtube.com/watch?v=" + trailer.key}});
+                        resolve({
+                            type: 'video',
+                            data: {
+                                video: {
+                                    media: 'https://www.youtube.com/embed/' + trailer.key,
+                                },
+                                message: 'Voici le trailer',
+                                vocal: 'Voici le trailer',
+                            }
+                        });
                     }
                 });
             }
