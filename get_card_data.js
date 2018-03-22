@@ -54,7 +54,13 @@ module.exports = (results, message, vocal) => {
             };
 
             if (output.data.cards.length === 0) {
-                resolve({type: 'text', data: {message: 'Aucun résultat'}});
+                resolve({
+                    type: 'text',
+                    data: {
+                        message: 'Je ne trouve pas d\'information à ce sujet',
+                        vocal: 'Je suis désolé, je n\'ai rien trouvé à ce sujet'
+                    }
+                });
             }
 
             resolve(output);

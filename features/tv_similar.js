@@ -35,8 +35,10 @@ function foundSimilarById(id) {
 
             let results = JSON.parse(body).results.slice(0, 5);
 
-            getCardData(results, 'Séries similaires :').then(data => reject(data));
-
+            getCardData(results,
+                'J\'ai trouvé plusieurs séries similaires',
+                'J\'ai trouvé plusieurs séries similaires qui pourraient vous plaire')
+                .then(data => resolve(data));
         });
     });
 }

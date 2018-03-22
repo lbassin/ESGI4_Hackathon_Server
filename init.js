@@ -15,7 +15,7 @@ module.exports = {
 
     saveGenre: (req, db) => {
         return new Promise((resolve, reject) => {
-            let name = req.headers.authorization;
+            let name = req.headers.authorization.toLowerCase();
             let genre = req.body.question.toLowerCase();
 
             const urlSimilar = config.URL_THEMOVIEDB + 'genre/tv/list' + config.API_KEY_THEMOVIEDB;
@@ -42,12 +42,15 @@ module.exports = {
                                 if (!genres) {
                                     genres = '[]';
                                 }
-                                genres = JSON.parse(genres).push(body.genres[index].id);
+                                genres = JSON.parse(genres);
+                                if (!genres.includes(body.genres[index].id)) {
+                                    genres.push(body.genres[index].id);
+                                }
 
                                 user.genres = JSON.stringify(genres);
 
                                 db.collection('users').updateOne({'_id': user._id}, {$set: {genres: user.genres}}).then(() => {
-                                    resolve('test');
+                                    resolve();
                                 }).catch(() => reject(genresAvailables));
                             }
                         });
