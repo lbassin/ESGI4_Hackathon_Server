@@ -82,7 +82,7 @@ app.post('/init/', (req, res) => {
                     data: {
                         options: response
                     },
-                    session: 'genre'
+                    session: 'genre',
                 });
             });
             break;
@@ -94,7 +94,8 @@ app.post('/init/', (req, res) => {
                     pseudo: req.body.question,
                     vocal: 'Bonjour ' + name + ' !. Quel genre de série ou film aimez vous regarder ?',
                 },
-                session: 'genre'
+                session: 'genre',
+                restartRecord: true,
             };
             init.savePseudo(req, db);
             res.send(response);

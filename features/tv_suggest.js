@@ -18,6 +18,7 @@ module.exports = (parameters, db) => {
             let genres = JSON.parse(user.genres);
             const url = config.URL_THEMOVIEDB + 'discover/tv' + config.API_KEY_THEMOVIEDB;
             let filters = '&with_genres=' + genres.join(',');
+            console.log(filters);
             request(url + filters, (error, response, body) => {
                 body = JSON.parse(body);
 

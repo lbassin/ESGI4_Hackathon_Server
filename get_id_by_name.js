@@ -85,7 +85,10 @@ module.exports = (name) => {
             const message = 'De quelle série parlez vous ?';
             const vocal = 'Plusieurs séries correspondent à votre recherche, de quelle série parlez vous ?';
 
-            getCardData(body.results, message, vocal).then(data => reject(data));
+            getCardData(body.results, message, vocal).then(data => {
+                data.restartRecord = true;
+                reject(data)
+            });
         });
     });
 };

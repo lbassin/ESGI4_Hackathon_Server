@@ -35,6 +35,10 @@ module.exports = (results, message, vocal) => {
                 continue;
             }
 
+            if (!results[index]) {
+                continue;
+            }
+
             if (!results[index].popularity || results[index].popularity < 1.2) {
                 continue;
             }
