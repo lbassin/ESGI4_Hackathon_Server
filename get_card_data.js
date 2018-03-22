@@ -22,6 +22,8 @@ function getOutputData(show) {
                 title: show.name,
                 media: 'https://image.tmdb.org/t/p/w400' + show.poster_path,
                 caption: genres[selectedGenre].name,
+                overview: show.overview,
+                poster: 'https://image.tmdb.org/t/p/original' + show.backdrop_path
             });
         });
     });

@@ -39,7 +39,13 @@ module.exports = (parameters) => {
                         let trailer = body.results[0];
 
                         if (!trailer) {
-                            reject({type: 'text', data: {message: 'Rien trouvé'}});
+                            reject({
+                                type: 'text',
+                                data: {
+                                    message: 'Je ne trouve pas ce film',
+                                    vocal: 'Je ne trouve pas ce film',
+                                }
+                            });
                             return;
                         }
 
