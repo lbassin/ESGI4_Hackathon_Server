@@ -13,14 +13,14 @@ let db = null;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/api/', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     const userId = req.headers.authorization;
     if (userId === undefined) {
-        res.send({error: true, message: 'Missing Authorization'});
+        res.send({ error: true, message: 'Missing Authorization' });
     }
 
     let sessionId = null;
@@ -83,6 +83,7 @@ app.post('/init/', (req, res) => {
                         options: response
                     },
                     session: 'genre',
+                    restartRecord: 'true'
                 });
             });
             break;

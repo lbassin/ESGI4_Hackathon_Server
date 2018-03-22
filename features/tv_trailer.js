@@ -39,7 +39,7 @@ module.exports = (parameters) => {
                         let trailer = body.results[0];
 
                         if (!trailer) {
-                            reject({type: 'text', data: {message: 'Rien trouvé'}});
+                            reject({ type: 'text', data: { message: 'Rien trouvé' } });
                             return;
                         }
 
@@ -50,7 +50,7 @@ module.exports = (parameters) => {
                                     media: 'https://www.youtube.com/embed/' + trailer.key + '?autoplay=1',
                                 },
                                 message: 'Je lance la lecture du trailer',
-                                vocal: 'Voici le trailer',
+                                vocal: 'Voici le traileur',
                             }
                         });
                     }
