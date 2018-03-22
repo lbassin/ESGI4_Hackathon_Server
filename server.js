@@ -73,7 +73,17 @@ app.post('/init/', (req, res) => {
                 },
                 session: null
             };
-            init.saveGenre(req, db);
+            init.saveGenre(req, db).then(() => {
+                res.send(response);
+            }).catch(response => {
+                res.send({
+                    type: 'init_erreur',
+                    data: {
+                        options: response
+                    },
+                    session: 'genre'
+                });
+            });
             break;
         default:
             response = {
@@ -85,10 +95,10 @@ app.post('/init/', (req, res) => {
                 session: 'genre'
             };
             init.savePseudo(req, db);
+            res.send(response);
             break;
     }
 
-    res.send(response);
 });
 
 MongoClient.connect('mongodb://127.0.0.1:27017', (error, client) => {
