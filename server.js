@@ -32,6 +32,7 @@ app.post('/api/', (req, res) => {
     askBot(question, sessionId).then(response => {
         console.log(response.action);
         let parameters = cleanParameters(response.parameters);
+        parameters.user = userId;
 
         if (parameters.Confirmation) {
             vars.forceConfirmation = true;
@@ -53,7 +54,7 @@ app.post('/api/', (req, res) => {
             return;
         }
 
-        callback(parameters).then(data => {
+        callback(parameters, db).then(data => {
             res.send(JSON.stringify(data));
         }).catch(error => {
             res.send(JSON.stringify(error));
@@ -69,7 +70,7 @@ app.post('/init/', (req, res) => {
             response = {
                 type: 'init_done', data: {
                     message: 'Merci, vous pouvez maintenant utiliser nos services',
-                    vocal: '',
+                    vocal: 'Merci !. Votre profil est complet, vous pouvez maintenant utiliser nos services',
                 },
                 session: null
             };
@@ -86,11 +87,12 @@ app.post('/init/', (req, res) => {
             });
             break;
         default:
+            let name = req.body.question[0].toUpperCase() + req.body.question.slice(1);
             response = {
                 type: 'init', data: {
-                    message: 'Merci, quel genre de série ou film aimez vous regarder ?',
+                    message: 'Bonjour ' + name + ' ! Quel genre de série ou film aimez vous regarder ?',
                     pseudo: req.body.question,
-                    vocal: '',
+                    vocal: 'Bonjour ' + name + ' !. Quel genre de série ou film aimez vous regarder ?',
                 },
                 session: 'genre'
             };

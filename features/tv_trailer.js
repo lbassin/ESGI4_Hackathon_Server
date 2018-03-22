@@ -15,6 +15,17 @@ module.exports = (parameters) => {
                 body = JSON.parse(body);
                 let show = body.results[0];
 
+                if (!show) {
+                    reject({
+                        type: 'text',
+                        data: {
+                            message: 'Je ne trouve pas de trailer pour ce film',
+                            vocal: 'Je suis désolé, je n\'ai pas trouvé de trailer pour ce film'
+                        }
+                    });
+                    return;
+                }
+
                 const name = parameters.TV_Name;
                 const url = config.URL_THEMOVIEDB +
                     'movie/' +
@@ -39,7 +50,7 @@ module.exports = (parameters) => {
                                     media: 'https://www.youtube.com/embed/' + trailer.key,
                                 },
                                 message: 'Voici le trailer',
-                                vocal: 'Voici le trailer',
+                                vocal: 'Je lance la lecture du trailer',
                             }
                         });
                     }
