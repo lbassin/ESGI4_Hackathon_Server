@@ -47,10 +47,10 @@ module.exports = (parameters) => {
                             type: 'video',
                             data: {
                                 video: {
-                                    media: 'https://www.youtube.com/embed/' + trailer.key,
+                                    media: 'https://www.youtube.com/embed/' + trailer.key + '?autoplay=1',
                                 },
-                                message: 'Voici le trailer',
-                                vocal: 'Je lance la lecture du trailer',
+                                message: 'Je lance la lecture du trailer',
+                                vocal: 'Voici le trailer',
                             }
                         });
                     }
