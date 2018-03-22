@@ -56,7 +56,7 @@ module.exports = (parameters) => {
                                     media: 'https://www.youtube.com/embed/' + trailer.key + '?autoplay=1',
                                 },
                                 message: 'Je lance la lecture du trailer',
-                                vocal: 'Voici le trailer',
+                                vocal: 'Voici le traileur',
                             }
                         });
                     }
