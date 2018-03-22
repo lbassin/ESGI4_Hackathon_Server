@@ -2,8 +2,22 @@ const getIdByName = require('../get_id_by_name');
 const config = require('../config');
 const request = require('request');
 
+const days = [
+    'dimanche',
+    'lundi',
+    'mardi',
+    'mercredi',
+    'jeudi',
+    'vendredi',
+    'samedi',
+];
+
+const months = [
+    'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'
+];
+
 function getNextById(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         const url = config.URL_THEMOVIEDB + 'tv/' + id + '/external_ids' + config.API_KEY_THEMOVIEDB;
 
         request(url, function (error, response, body) {
@@ -27,9 +41,31 @@ function getNextById(id) {
                     let diff = new Date(now) - new Date(value);
                     if (diff < 0 && diff !== NaN && found == null) {
                         found = new Date(value);
-                        return found;
+                        let date = Date.parse(found);
+                        date = new Date(date);
+
+                        let outputDate = days[date.getDay()] + ' ' +
+                            date.getDate() + ' ' + months[date.getMonth()] + ' ' +
+                            date.getFullYear();
+
+                        resolve({
+                            type: 'text',
+                            data: {
+                                message: 'Le prochain épisode sera disponible le ' + outputDate,
+                                vocal: 'Le prochain épisode sera disponible le ' + outputDate
+                            }
+                        });
+                        return;
                     }
                 });
+
+                reject({
+                    type: 'text',
+                    data: {
+                        message: 'Aucun épisode n\'a été trouvé',
+                        vocal: 'Aucun épisode n\'est prévu pour le moment  '
+                    }
+                })
             })
         });
     });
