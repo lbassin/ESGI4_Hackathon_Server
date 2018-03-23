@@ -9,7 +9,7 @@ module.exports = () => {
                     {
                         title: 'Avoir des séries similaires',
                         desc: 'Dites : donne moi les séries similaires à {nom de votre série}',
-                        button: 'Séries similaire'
+                        button: 'Séries similaires'
                     }, {
                         title: 'Connaitre la sortie du prochain épisode d\'une série',
                         desc: 'Dites : quand sort le prochain épisode de {nom de votre série}',
